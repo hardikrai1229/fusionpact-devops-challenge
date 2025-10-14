@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 7. Build and push Docker images using docker compose
+      # 7. Build and push Docker images using docker-compose
       - name: Build and Push Docker Images
         run: |
           docker compose -f docker-compose.yml build
@@ -80,7 +80,7 @@ jobs:
             docker ps -a -q --filter "name=fusionpact-frontend" | xargs -r docker rm -f
             docker ps -a -q --filter "name=fusionpact-backend"  | xargs -r docker rm -f
 
+            # Start containers in detached mode
             docker-compose pull
-            docker-compose down
-            docker-compose up --build
+            docker-compose up -d --build
           EOF
