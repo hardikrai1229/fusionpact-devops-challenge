@@ -54,7 +54,7 @@ jobs:
       # 7. Build and push Docker images using docker compose
       - name: Build and Push Docker Images
         run: |
-          docker-compose -f docker-compose.yml build
+          docker compose -f docker-compose.yml build
           docker tag fusionpact-devops-challenge-frontend:latest ${{ secrets.DOCKER_USERNAME }}/fusionpact-frontend:latest
           docker tag fusionpact-devops-challenge-backend:latest ${{ secrets.DOCKER_USERNAME }}/fusionpact-backend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/fusionpact-frontend:latest
