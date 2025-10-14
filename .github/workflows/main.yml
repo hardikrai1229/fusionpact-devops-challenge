@@ -63,14 +63,19 @@ jobs:
       # 8. Deploy to AWS EC2
       - name: Deploy to AWS EC2
         env:
-          CLOUD_USER: ${{ secrets.CLOUD_USER }}
-          CLOUD_HOST: ${{ secrets.CLOUD_HOST }}
+         CLOUD_USER: ${{ secrets.CLOUD_USER }}
+         CLOUD_HOST: ${{ secrets.CLOUD_HOST }}
         run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
+          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' | sed 's/\\n/\n/g' > key.pem
           chmod 600 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem $CLOUD_USER@$CLOUD_HOST << 'EOF'
-            cd /home/ubuntu/fusionpact-deployment
-            docker compose pull
-            docker compose down
-            docker compose up -d
+          cd /home/ubuntu
+          if [ ! -d "fusionpact-deployment" ]; then
+          git clone https://github.com/hardikrai1229/fusionpact-devops-challenge.git fusionpact-deployment
+          fi
+          cd fusionpact-deployment
+          git pull origin main
+          docker-compose pull
+          docker-compose down
+          docker-compose up -d --build
           EOF
