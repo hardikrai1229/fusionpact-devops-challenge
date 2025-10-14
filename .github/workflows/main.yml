@@ -77,8 +77,8 @@ jobs:
             git pull origin main
 
             # Remove existing containers to avoid conflicts
-            docker ps -a -q --filter "name=fusionpact-devops-challenge-frontend" | xargs -r docker rm -f
-            docker ps -a -q --filter "name=fusionpact-devops-challenge-backend"  | xargs -r docker rm -f
+            docker ps -a -q --filter "name=fusionpact-frontend" | xargs -r docker rm -f
+            docker ps -a -q --filter "name=fusionpact-backend"  | xargs -r docker rm -f
 
             docker-compose pull
             docker-compose down
