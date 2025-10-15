@@ -80,9 +80,11 @@ jobs:
             docker ps -a -q --filter "name=fusionpact-frontend" | xargs -r docker rm -f
             docker ps -a -q --filter "name=fusionpact-backend"  | xargs -r docker rm -f
 
-            sudo apt-get remove docker-compose -y || true
-            sudo apt-get update
-            sudo apt-get install docker-compose-plugin -y
+           sudo rm -f /usr/local/bin/docker-compose || true
+            DOCKER_COMPOSE_VERSION="v2.23.0"
+            sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+            docker-compose version
 
             # Start containers in detached mode
             docker-compose pull
