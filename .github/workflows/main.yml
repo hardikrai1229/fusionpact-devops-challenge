@@ -76,9 +76,14 @@ jobs:
             cd fusionpact-deployment
             git pull origin main
 
-            # Remove existing containers to avoid conflicts
-            docker ps -a -q --filter "name=fusionpact-frontend" | xargs -r docker rm -f
-            docker ps -a -q --filter "name=fusionpact-backend"  | xargs -r docker rm -f
+          
+            # Remove any existing containers for all services
+            docker ps -a -q --filter "name=fusionpact-frontend"| xargs -r docker rm -f
+            docker ps -a -q --filter "name=fusionpact-backend" | xargs -r docker rm -f
+            docker ps -a -q --filter "name=cadvisor" | xargs -r docker rm -f
+            docker ps -a -q --filter "name=prometheus" | xargs -r docker rm -f
+
+            
 
            sudo rm -f /usr/local/bin/docker-compose || true
             DOCKER_COMPOSE_VERSION="v2.23.0"
